@@ -2,17 +2,15 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import pandas as pd
 
-codes = pd.read_csv('data/2014_World_GDP')[['COUNTRY', 'CODE']]
-codes.columns = ['Country', 'Code']
-df = pd.read_csv('data/2014_World_Power_Consumption').merge(
-    codes,
-    how = 'outer',
-)
+df = pd.read_csv('data/2014_World_Power_Consumption')
 print(df.head())
 
 data = dict(
     type = 'choropleth',
-    locations = df['Code'],
+    locations = df['Country'],
+    locationmode = 'country names',
+    colorscale = 'viridis',
+    reversescale = True,
     z = df['Power Consumption KWH'],
     text = df['Text'],
     colorbar = dict(
@@ -25,7 +23,7 @@ layout = dict(
     geo = dict(
         showframe = False,
         projection = dict(
-            type = 'mercator'
+            type = 'natural earth'
         )
     )
 )
